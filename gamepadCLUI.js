@@ -3,22 +3,56 @@ var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
 controller.connect();
 
-var jLeft = {};
-var jRight = {};
+var status = {
+  gamepad: {
+    leftX: 0,
+    leftY: 0,
+  },
+};
+
 
 controller.on("left:move", function(value) {
-  jLeft.x = value.x;
+  status.gamepad.leftX = value.x;
 })
 
-console.log(jLeft.x);
+var CLI        = require('clui'),
+    clc         = require('cli-color'),
+    Line        = CLI.Line,
+    LineBuffer  = CLI.LineBuffer,
+    clear = CLI.Clear,
+    Gauge = CLI.Gauge;
 
-var os   = require('os'),
-    clui = require('clui');
+var drawTimeout;
 
-var Gauge = clui.Gauge;
-var gaugeMAX = 1;
-var gaugeWidth = 30;
+function draw() {
+  clear();
 
-var suffix = "leftX";
+  var outputBuffer = new LineBuffer({
+    x: 0,
+    y: 0,
+    width: 80,
+    height: 40
+  });
 
-console.log(Gauge(jLeft.x, gaugeMAX, gaugeWidth, gaugeMAX, suffix));
+  var outputBuffer = new LineBuffer({
+    x: 0,
+    y: 0,
+    width: 'console',
+    height: 'console'
+  });
+
+  var gaugeWidth = 40;
+
+  var line = new Line(outputBuffer)
+    .column("LeftX",20)
+    .column(Gauge(status.gamepad.leftX, 255, 40, 255, status.gamepad.leftX),50)
+    .fill()
+    .store();
+
+  outputBuffer.output();
+  drawTimeout = setTimeout(draw, 1000);
+}
+
+setInterval(function() {
+  draw();
+},100);
