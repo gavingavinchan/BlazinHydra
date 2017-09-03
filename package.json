@@ -20,5 +20,9 @@
     "url": "https://github.com/gavingavinchan/BlazinHydra/issues"
   },
   "homepage": "https://github.com/gavingavinchan/BlazinHydra#readme",
-  "dependencies": {}
+  "dependencies": {
+    "clui": "^0.3.6",
+    "node-gamepad": "^0.1.15",
+    "node-hid": "^0.5.7"
+  }
 }
