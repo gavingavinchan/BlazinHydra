@@ -1,0 +1,24 @@
+{
+  "name": "blazinhydra",
+  "version": "1.0.0",
+  "description": "very blazin ROV",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavingavinchan/BlazinHydra.git"
+  },
+  "keywords": [
+    "blazin",
+    "hydra"
+  ],
+  "author": "Gavin Chan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gavingavinchan/BlazinHydra/issues"
+  },
+  "homepage": "https://github.com/gavingavinchan/BlazinHydra#readme",
+  "dependencies": {}
+}
