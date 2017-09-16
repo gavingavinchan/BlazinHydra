@@ -7,7 +7,10 @@ var status = {
   gamepad: {
     leftX: 0,
     leftY: 0,
+    rightX: 0,
+    rightY: 0,
     XButton: false,
+    fineControlToggle: false
   },
 };
 
@@ -24,6 +27,11 @@ controller.on("right:move", function(value) {
 
 controller.on("x:press", function(){
   status.gamepad.XButton = true;
+  if(status.gamepad.fineControlToggle) {
+    status.gamepad.fineControlToggle = false;
+  } else {
+    status.gamepad.fineControlToggle = true;
+  }
 })
 controller.on("x:release", function() {
   status.gamepad.XButton = false;
@@ -103,36 +111,72 @@ function draw() {
     .fill()
     .store();
 
+
   var line = new Line(outputBuffer)
-    .column("normalize(LeftX)",20)
-    .column(Gauge(normalize(status.gamepad.leftX)+1, 2, 40, 2, normalize(status.gamepad.leftX)),80)
+    .column("normalize: ",20)
+    .column(Gauge(normalize(status.gamepad.leftX)+1, 2, 40, 2, normalize(status.gamepad.leftX).toFixed(3)),80)
     .fill()
     .store();
 
   var line = new Line(outputBuffer)
-    .column("deadZone(normalize(LeftX))",20)
-    .column(Gauge(deadZone(normalize(status.gamepad.leftX))+1, 2, 40, 2, deadZone(normalize(status.gamepad.leftX))+1),80)
+    .column("deadZone: ",20)
+    .column(Gauge(deadZone(normalize(status.gamepad.leftX))+1, 2, 40, 2, deadZone(normalize(status.gamepad.leftX)).toFixed(3)),80)
     .fill()
     .store();
+
+  var line = new Line(outputBuffer)
+    .column("curve: ",20)
+    .column(Gauge(curve(deadZone(normalize(status.gamepad.leftX)))+1, 2, 40, 2, curve(deadZone(normalize(status.gamepad.leftX))).toFixed(3)),80)
+    .fill()
+    .store();
+
+  var line = new Line(outputBuffer)
+    .column("fineControl",20)
+    .column(Gauge(fineControl(curve(deadZone(normalize(status.gamepad.leftX))))+1, 2, 40, 2, fineControl(curve(deadZone(normalize(status.gamepad.leftX)))).toFixed(3)),80)
+    .fill()
+    .store();
+
+  if(status.gamepad.fineControlToggle) {
+    var line = new Line(outputBuffer)
+      .column("fineControl",20)
+      .column(Gauge(fineControl(curve(deadZone(normalize(status.gamepad.leftX))))+1, 2, 40, 2, fineControl(curve(deadZone(normalize(status.gamepad.leftX)))).toFixed(3)),80)
+      .fill()
+      .store();
+  } else {
+    var line = new Line(outputBuffer)
+      .column("curve: ",20)
+      .column(Gauge(curve(deadZone(normalize(status.gamepad.leftX)))+1, 2, 40, 2, curve(deadZone(normalize(status.gamepad.leftX))).toFixed(3)),80)
+      .fill()
+      .store();
+  }
 
 
   outputBuffer.output();
-  drawTimeout = setTimeout(draw, 1000);
 }
 
 setInterval(function() {
   draw();
-},100);
+},50);
 
 function normalize(x) {
   return (x - 255/2)/(255/2);
 }
 
-var deadZoneRange = 0.1;
+var deadZoneRange = 0.05;
 function deadZone(x) {
-  if(-deadZoneRange<x && x<deadZoneRange) {
+  if(Math.abs(x) < deadZoneRange) {
     return 0;
   } else {
-    return (Math.abs(x)-deadZoneRange)/(1-deadZoneRange) * (x/Math.abs(x));
+    return x>0 ? (Math.abs(x)-deadZoneRange)/(1-deadZoneRange) : -(Math.abs(x)-deadZoneRange)/(1-deadZoneRange);
   }
+}
+
+var curvePow = 2;
+function curve(x) {
+  return x>0 ? Math.pow(x,curvePow) : -Math.pow(x,curvePow);
+}
+
+var fineControlLimit= 0.3;
+function fineControl(x) {
+  return x*fineControlLimit;
 }
