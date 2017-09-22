@@ -22,6 +22,7 @@
   "homepage": "https://github.com/gavingavinchan/BlazinHydra#readme",
   "dependencies": {
     "clui": "^0.3.6",
+    "i2c": "^0.2.3",
     "node-gamepad": "^0.1.15",
     "node-hid": "^0.5.7"
   }
