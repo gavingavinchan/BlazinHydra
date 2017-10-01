@@ -4,12 +4,13 @@ var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
 controller.connect();
 
-var leftX = 0;
-controller.on("left:move", function(value) {
-  leftX = value.x;
-})
 
-var addrArray = [0x30,0x31,0x32,0x33];
+var addrArray = [
+  {name:"HL", address: 0x30},
+  {name:"HR", address: 0x31},
+  {name:"HR", address: 0x32},
+  {name:"HR", address: 0x33},
+];
 thrusterControl.init(addrArray);
 
 function normalize(x) {
@@ -25,6 +26,7 @@ function deadZone(x) {
   }
 }
 
-setInterval(function() {
-  thrusterControl.thrust(0,deadZone(normalize(leftX)));
-},20);
+controller.on("left:move", function(value) {
+  //leftX = value.x;
+  thrusterControl.thrust("HL",deadZone(normalize(value.x)));
+})
