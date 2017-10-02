@@ -13,6 +13,14 @@ var addrArray = [
 ];
 thrusterControl.init(addrArray);
 
+thrusterControl.startLoop();
+
+/*
+setTimeout(function() {
+  thrusterControl.stopLoop();
+},5000);
+*/
+
 function normalize(x) {
   return (x - 255/2)/(255/2);
 }
