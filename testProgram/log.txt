@@ -1,985 +1,357 @@
 thrusterControl initiated
-0
-thrustArr: -32767
--128
--127
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 33.81527347781206
-0
-33.81527347781206
-0
-thrustArr: 33.81527347781206
-0
-33.81527347781206
-0
-thrustArr: 304.3374613003095
-1
-49.337461300309485
-0
-thrustArr: 304.3374613003095
-1
-49.337461300309485
-0
-thrustArr: 304.3374613003095
-1
-49.337461300309485
-0
-thrustArr: 304.3374613003095
-1
-49.337461300309485
-0
-thrustArr: 574.8596491228069
-2
-64.8596491228069
-0
-thrustArr: 1386.4262125902992
-5
-111.4262125902992
-0
-thrustArr: 1656.9484004127967
-6
-126.94840041279667
-0
-thrustArr: 2468.514963880289
-9
-173.5149638802891
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 2739.0371517027866
-10
-189.03715170278656
-0
-thrustArr: 1656.9484004127967
-6
-126.94840041279667
-0
-thrustArr: 304.3374613003095
-1
-49.337461300309485
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
-0
-thrustArr: 0
-0
-0
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+positive acceleration too high
+acceleration noominal
+acceleration noominal
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+positive acceleration too high
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal
+acceleration noominal

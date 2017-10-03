@@ -6,8 +6,8 @@ controller.connect();
 
 
 var addrArray = [
-  {name:"HL", address: 0x30},
-  {name:"HR", address: 0x31},
+  {name:"HL", address: 0x31},
+  {name:"HR", address: 0x30},
   {name:"HR", address: 0x32},
   {name:"HR", address: 0x33},
 ];
