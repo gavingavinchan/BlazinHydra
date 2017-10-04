@@ -13,7 +13,7 @@ var _init = function(_addresses) {
       device: new i2c(_addresses[i].address, {device: '/dev/i2c-1'}),
       currentSpeed: 0,
       targetSpeed: 0,
-      maxAcceleration: 0.001,
+      maxAcceleration: 0.08,
     };
     thrusters[_addresses[i].name] = thruster;
   }
@@ -26,24 +26,26 @@ var _startLoop = function() {
   loop = setInterval(function() {
     //thrusters.forEach(function(element) {});
     let t = thrusters["HL"];
-    var newSpeed = 0;
     if(Math.abs(t.targetSpeed-t.currentSpeed) > t.maxAcceleration) {
-      if(t.targetSpeed > 0) {
-        console.log("positive acceleration too high.   " + "currentSpeed: " + t.currentSpeed + " newSpeed: " + newSpeed);
-        newSpeed = t.currentSpeed + t.maxAcceleration;
+      if(t.targetSpeed > t.currentSpeed) {
+        //console.log("positive acceleration too high.   " + "currentSpeed: " + t.currentSpeed + " newSpeed: " + newSpeed);
+        t.currentSpeed += t.maxAcceleration;
       } else {
-        newSpeed = t.currentSpeed - t.maxAcceleration;
-        console.log("negative acceleration too low.   " + "currentSpeed: " + t.currentSpeed + " newSpeed: " + newSpeed);
+        t.currentSpeed -= t.maxAcceleration;
+        //console.log("negative acceleration too low.   " + "currentSpeed: " + t.currentSpeed);
       }
+    } else {
+      t.currentSpeed = t.targetSpeed;
     }
-    console.log("value: " + newSpeed*32767);
-    if(Math.abs(newSpeed) > 1) {
-      if(newSpeed>0) {newSpeed = 1} else {newSpeed = -1};
+    console.log("value: " + t.currentSpeed*32767);
+
+    // truncate
+    if(Math.abs(t.currentSpeed) > 1) {
+      if(t.currentSpeed>0) {t.currentSpeed = 1} else {t.currentSpeed = -1};
     }
 
-    t.device.writeBytes(0x00, [newSpeed*32767 >>> 8, (newSpeed*32767)%255], function(err) {});
+    t.device.writeBytes(0x00, [t.currentSpeed*32767 >>> 8, (t.currentSpeed*32767)%255], function(err) {});
 
-    t.currentSpeed = newSpeed;
   },timeInterval);
 };
 
