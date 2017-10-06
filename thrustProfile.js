@@ -6,6 +6,8 @@ function profileChainV(x) {
   return fineControlV(curveV(deadZone(x)));
 }
 
+
+
 //*************************
 var deadZoneRange = 0.05;
 function deadZone(x) {
@@ -53,6 +55,16 @@ exports.mappingH = function(x,y) {
   return {
     HL: thrust.HL,
     HR: thrust.HR
+  };
+};
+
+exports.mappingV = function(x,y) {
+  thrust.VL = profileChainV(x) + profileChainV(y);
+  thrust.VR = -profileChainV(x) + profileChainV(y);
+
+  return {
+    VL: thrust.VL,
+    VR: thrust.VR
   };
 };
 exports.deadZone = deadZone;

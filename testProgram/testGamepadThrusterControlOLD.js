@@ -6,10 +6,10 @@ controller.connect();
 
 
 var addrArray = [
-  {name:"HL", address: 0x31},
-  {name:"HR", address: 0x30},
-  {name:"HR", address: 0x32},
+  {name:"HL", address: 0x30},
   {name:"HR", address: 0x33},
+  {name:"VL", address: 0x32},
+  {name:"VR", address: 0x31},
 ];
 thrusterControl.init(addrArray);
 
@@ -37,4 +37,5 @@ function deadZone(x) {
 controller.on("left:move", function(value) {
   //leftX = value.x;
   thrusterControl.thrust("HL",deadZone(normalize(value.x)));
+  thrusterControl.thrust("HR",deadZone(normalize(value.y)));
 })
