@@ -5,29 +5,35 @@ const maxAccelerationPerSecond = 0.5;
 
 var thrusters = [];
 //HL = 0, HR, 1, VL = 2, VR = 3
-var addrArray = [];
-var _init = function(_addresses) {
-  addrArray = _addresses;
+
+var _init = function(settings) {
+
   console.log("thrusterControl initiated");
 
-  for(var i=0; i<_addresses.length; i++){
+  settings.forEach(setting => {
+    const s = Object.assign({ invert: false }, setting);
+    console.log(setting);
     var thruster = {
-      device: new i2c(_addresses[i].address, {device: '/dev/i2c-1'}),
+      device: new i2c(s.address, {device: '/dev/i2c-1'}),
       currentSpeed: 0,
       targetSpeed: 0,
+      invert: s.invert ? -1 : 1,
       maxAcceleration: maxAccelerationPerSecond / timeInterval,
     };
-    thrusters[_addresses[i].name] = thruster;
-  }
+    thrusters[s.name] = thruster;
+  });
 };
+
+var i2cThrusterWrite = function(device, _currentSpeed) {
+  device.writeBytes(0x00, [_currentSpeed*32767 >>> 8, (_currentSpeed*32767)%255], function(err) {});
+}
 
 var loop;
 var _startLoop = function() {
   for(var t in thrusters) {
-    thrusters[t].device.writeBytes(0x00, [0x00, 0x00], err => {});
+    i2cThrusterWrite(thrusters[t].device,0);
+    //thrusters[t].device.writeBytes(0x00, [0x00, 0x00], err => {});
   }
-
-  //thrusters["HL"].device.writeBytes(0x00, [0x00, 0x00], function(err) {});
 
   loop = setInterval(function() {
     for(var t in thrusters) {
@@ -51,8 +57,8 @@ var _startLoop = function() {
       if(Math.abs(t.currentSpeed) > 1) {
         if(t.currentSpeed>0) {t.currentSpeed = 1} else {t.currentSpeed = -1};
       }
-
-      t.device.writeBytes(0x00, [t.currentSpeed*32767 >>> 8, (t.currentSpeed*32767)%255], function(err) {});
+      i2cThrusterWrite(t.device, t.currentSpeed*t.invert);
+      //t.device.writeBytes(0x00, [t.currentSpeed*32767 >>> 8, (t.currentSpeed*32767)%255], function(err) {});
     }
   },timeInterval);
 };
@@ -60,12 +66,13 @@ var _startLoop = function() {
 var _stopLoop = function() {
   clearInterval(loop);
   for(var t in thrusters) {
-    thrusters[t].device.writeBytes(0x00, [0x00, 0x00], err => {});
+    i2cThrusterWrite(thrusters[t].device, 0);
+    //thrusters[t].device.writeBytes(0x00, [0x00, 0x00], err => {});
   }
 }
 
-var _thrust = function(id,value) {
-  thrusters[id].targetSpeed = value;
+var _thrust = function(name,value) {
+  thrusters[name].targetSpeed = value;
 };
 
 module.exports = {

@@ -2,7 +2,7 @@ var addrArray = [
   {name:"HL", address: 0x32},
   {name:"HR", address: 0x31},
   {name:"VL", address: 0x30},
-  {name:"VR", address: 0x33},
+  {name:"VR", address: 0x33, invert: true},
 ];
 
 
