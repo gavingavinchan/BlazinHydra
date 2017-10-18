@@ -12,7 +12,7 @@ var _init = function(settings) {
 
   settings.forEach(setting => {
     const s = Object.assign({ invert: false }, setting);
-    console.log(setting);
+    //console.log(setting);
     var thruster = {
       device: new i2c(s.address, {device: '/dev/i2c-1'}),
       currentSpeed: 0,

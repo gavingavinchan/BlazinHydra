@@ -2,7 +2,7 @@ var addrArray = [
   {name:"HL", address: 0x32},
   {name:"HR", address: 0x31},
   {name:"VL", address: 0x30},
-  {name:"VR", address: 0x33, invert: true},
+  {name:"VR", address: 0x3F, invert: true},
 ];
 
 
@@ -61,4 +61,9 @@ controller.on("right:move", function(value) {
 
   thrusterControl.thrust("VL",status.thrust.VL);
   thrusterControl.thrust("VR",status.thrust.VR);
+})
+
+
+controller.on("up:press", function() {
+  
 })

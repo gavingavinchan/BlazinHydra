@@ -1,4 +1,5 @@
 //getStatus()
+var status = {};
 
 var CLI         = require('clui'),
     clc         = require('cli-color'),
@@ -8,18 +9,6 @@ var CLI         = require('clui'),
     Gauge       = CLI.Gauge;
 
 var gaugeArr = [];
-
-
-
-exports.gauge = function(lable,x) {
-  gaugeArr.push(lable,x);
-}
-
-exports.string = function(a,b) {
-
-}
-
-
 var drawTimeout;
 
 function draw() {
@@ -55,3 +44,7 @@ function draw() {
 setInterval(function() {
   draw();
 },50);
+
+exports.update = function(_status) {
+  status = _status;
+}
