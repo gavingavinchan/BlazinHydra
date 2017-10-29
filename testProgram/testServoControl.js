@@ -14,7 +14,7 @@ controller.on("dpadUp:press", function() {
     console.log("true");
     channel = false;
   } else {
-    servoControl.servo(0x02,1900);
+    servoControl.servo(0x02,1500);
     channel = true;
   }
 })
