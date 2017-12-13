@@ -26,8 +26,8 @@ rl.question('heading: ', (_heading) => {
             rl.question('Wind speed: ', (w_speed) => {
               w.speed = w_speed;
 
-              rl.question('Wind direction: ', (w_direction) => {
-                w.direction = w_direction;
+              rl.question('Wind is blowing from: ', (w_from) => {
+                w.from = w_from;
 
                 //calculate vectors
                 calc_a();
@@ -46,34 +46,16 @@ rl.question('heading: ', (_heading) => {
   });
 });
 
-var initData = {
-  location: 0,
-  heading: 0
-};
+var initData = {};
 
 //ascent
-var a = {
-  airspeed: 0,
-  rate: 0,
-  time: 0,
-  height: 0,
-  displacement: 0
-};
+var a = {};
 
 //descent
-var d = {
-  airspeed: 0,
-  rate: 0,
-  time: 0,
-  displacement: 0
-}
+var d = {};
 
 //wind
-var w = {
-  speed: 0,
-  direction: 0,
-  displacement: 0
-}
+var w = {};
 
 //final location
 var f = {};
@@ -88,21 +70,36 @@ a.time = 43;
 //***********************
 */
 
+function sinDegrees(angle) {
+  return Math.sin(angle/180*Math.PI);
+};
+
+function cosDegrees(angle) {
+  return Math.cos(angle/180*Math.PI);
+};
+
 function calcDisplacement(obj) {
-  var obj2 = obj;
   obj.displacement = Math.sqrt(Math.pow(obj.airspeed,2) - Math.pow(obj.rate,2)) * obj.time;
   //console.log(Math.pow(a.ascent,2));
+}
+
+//only for a or b
+function vectorXY(obj, _heading) {
+  obj.x = a.displacement*sinDegrees(_heading);
+  obj.y = a.displacement*cosDegrees(_heading);
 }
 
 //calculate ascent
 function calc_a() {
   a.height = a.rate*a.time;
   calcDisplacement(a);
+  vectorXY(a, initData.heading);
 }
 
 function calc_d() {
   d.time = a.height/d.rate;
   calcDisplacement(d);
+  vectorXY(d, initData.heading);
 }
 
 function calc_w() {
@@ -110,21 +107,29 @@ function calc_w() {
   //why does w.speed*(a.time + d.time) does not work?
   //console.log(a.time + d.time);
 
-  if(w.direction < 180) {
-    w.direction += 180;
+  //invert wind direction, "wind is blowing from" not wind direction
+  if(w.from == 0){
+  } else if(w.from < 180) {
+    w.direction = w.from + 180;
   } else {
-    w.direction = 360 - w.direction;
+    w.direction = w.from - 180;
   }
+
+  vectorXY(w, w.direction);
 }
 
 function calc_f() {
-  var ADdisp = a.displacement+d.displacement;
-  var vectorAngle = 180-initData.heading+w.direction;
-  f.displacement = Math.sqrt(Math.pow(ADdisp,2) + Math.pow(w.displacement,2) -2*ADdisp*w.displacement*Math.cos(vectorAngle));
-  f.direction = initData.heading - Math.asin(ADdisp*Math.sin(vectorAngle)/f.displacement);
+  f.x = a.x + d.x + w.x;
+  f.y = a.y + d.y + w.y;
+
+  f.displacement = Math.sqrt(Math.pow(f.x,2) + Math.pow(f.y,2));
+  f.direction = Math.acos(f.y/f.displacement) /Math.PI*180;
+  console.log("f.x/f.displacement: " + f.x/f.displacement *Math.PI/180);
 }
 
 function print() {
+  console.log("***********************RESULTS***********************");
+  console.log("f.x: " + f.x + "  f.y: " + f.y);
   console.log("Ascent Vector: " + a.displacement + "m at " + initData.heading);
   console.log("Descent Vector: " + d.displacement + "m at " + initData.heading);
   console.log("Wind Vector: " + w.displacement + "m at " + w.direction);
