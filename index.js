@@ -1,8 +1,8 @@
 var addrArray = [
-  {name:"HL", address: 0x32},
-  {name:"HR", address: 0x31},
-  {name:"VL", address: 0x30},
-  {name:"VR", address: 0x3F, invert: true},
+  {name:"HL", address: 0x30, invert: true},
+  {name:"HR", address: 0x31, invert: false},
+  {name:"VL", address: 0x32, invert: true},
+  {name:"VR", address: 0x33, invert: true},
 ];
 
 
@@ -23,7 +23,7 @@ thrusterControl.startLoop();
 
 servoControl.init(0x17);
 
-statusDisplay.init();
+//statusDisplay.init();
 
 var status = {
   gamepad: {

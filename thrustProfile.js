@@ -30,12 +30,12 @@ function curveV(x) {
 }
 
 //*************************
-var fineControlLimitH = 0.3;
+var fineControlLimitH = 0.9;
 function fineControlH(x) {
   return x*fineControlLimitH;
 }
 
-var fineControlLimitV = 0.3;
+var fineControlLimitV = 0.9;
 function fineControlV(x) {
   return x*fineControlLimitV;
 }
@@ -49,8 +49,8 @@ var thrust = {
 }
 
 exports.mappingH = function(x,y) {
-  thrust.HL = profileChainH(x) + profileChainH(y);
-  thrust.HR = -profileChainH(x) + profileChainH(y);
+  thrust.HL = -profileChainH(x) + profileChainH(y);
+  thrust.HR = profileChainH(x) + profileChainH(y);
 
   return {
     HL: thrust.HL,
@@ -59,8 +59,8 @@ exports.mappingH = function(x,y) {
 };
 
 exports.mappingV = function(x,y) {
-  thrust.VL = profileChainV(x) + profileChainV(y);
-  thrust.VR = -profileChainV(x) + profileChainV(y);
+  thrust.VL = -profileChainV(x) + profileChainV(y);
+  thrust.VR = profileChainV(x) + profileChainV(y);
 
   return {
     VL: thrust.VL,

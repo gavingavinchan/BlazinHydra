@@ -32,26 +32,26 @@ function draw() {
   var gaugeWidth = 30;
 
   var line = new Line(outputBuffer)
-    .column("LeftX",10)
-    .column(Gauge(status.gamepad.leftX + 1, 2, 40, 2, status.gamepad.leftX.toFixed(3)),60)
+    .column("LeftX",13)
+    .column(Gauge(status.gamepad.leftX + 1, 2, 40, 2, status.gamepad.leftX.toFixed(3)),80)
     .fill()
     .store();
 
   var line = new Line(outputBuffer)
-    .column("LeftY",10)
-    .column(Gauge(status.gamepad.leftY + 1, 2, 40, 2, status.gamepad.leftY.toFixed(3)),60)
+    .column("LeftY",13)
+    .column(Gauge(status.gamepad.leftY + 1, 2, 40, 2, status.gamepad.leftY.toFixed(3)),80)
     .fill()
     .store();
 
   var line = new Line(outputBuffer)
-    .column("RightX",10)
-    .column(Gauge(status.gamepad.rightX + 1, 2, 40, 2, status.gamepad.rightX.toFixed(3)),60)
+    .column("RightX",13)
+    .column(Gauge(status.gamepad.rightX + 1, 2, 40, 2, status.gamepad.rightX.toFixed(3)),80)
     .fill()
     .store();
 
   var line = new Line(outputBuffer)
-    .column("RightY",10)
-    .column(Gauge(status.gamepad.rightY + 1, 2, 40, 2, status.gamepad.rightY.toFixed(3)),60)
+    .column("RightY",13)
+    .column(Gauge(status.gamepad.rightY + 1, 2, 40, 2, status.gamepad.rightY.toFixed(3)),80)
     .fill()
     .store();
 
