@@ -1,7 +1,7 @@
 var i2c = require('i2c');
 
 const timeInterval = 20;
-const maxAccelerationPerSecond = 0.5;
+const maxAccelerationPerSecond = 0.7;
 
 var thrusters = [];
 //HL = 0, HR, 1, VL = 2, VR = 3

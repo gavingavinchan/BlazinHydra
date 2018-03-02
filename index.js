@@ -1,6 +1,6 @@
 var addrArray = [
-  {name:"HL", address: 0x30, invert: true},
-  {name:"HR", address: 0x31, invert: false},
+  {name:"HL", address: 0x3f, invert: true},
+  {name:"HR", address: 0x30, invert: false},
   {name:"VL", address: 0x32, invert: true},
   {name:"VR", address: 0x33, invert: true},
 ];
@@ -12,6 +12,8 @@ var thrustProfile = require("./thrustProfile.js");
 
 var servoControl = require("./servoControl.js");
 
+var EMControl = require("./EMControl.js");
+
 var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
 
@@ -22,8 +24,10 @@ thrusterControl.init(addrArray);
 thrusterControl.startLoop();
 
 servoControl.init(0x17);
+EMControl.init(0x16);
 
-//statusDisplay.init();
+//why was the statusDisplay disabled during the first water trial?
+statusDisplay.init();
 
 var status = {
   gamepad: {
@@ -39,6 +43,9 @@ var status = {
     HR: 0,
     VL: 0,
     VR: 0
+  },
+  manipulator: {
+    EM: false,
   },
   video: {
     ch1: true,
@@ -99,5 +106,18 @@ controller.on("dpadLeft:press", function() {
   } else {
     servoControl.servo(0x03,1100);
     status.video.ch2 = true;
+  }
+})
+
+//electromagnet
+controller.on("l1:press", function(){
+  if(status.manipulator.EM) {
+    EMControl.attract(0);
+    status.manipulator.EM = false;
+    console.log("EM off");
+  } else {
+    EMControl.attract(255);
+    status.manipulator.EM = true;
+    console.log("EM on");
   }
 })
