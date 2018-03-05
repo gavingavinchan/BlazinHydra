@@ -27,7 +27,7 @@ servoControl.init(0x17);
 EMControl.init(0x16);
 
 //why was the statusDisplay disabled during the first water trial?
-statusDisplay.init();
+//statusDisplay.init();
 
 var status = {
   gamepad: {

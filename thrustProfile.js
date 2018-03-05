@@ -56,6 +56,9 @@ exports.mappingH = function(x,y) {
   thrust.HL = profileChainH(-x+y);
   thrust.HR = profileChainH(x+y);
 
+  var xy = x+y;
+  console.log("x+y: " + xy + "deadZone: " + deadZone(xy) + "curveH: " + curveH(deadZone(x)) + )
+
   return {
     HL: thrust.HL,
     HR: thrust.HR
