@@ -88,6 +88,22 @@ function draw() {
     .store();
 
 
+  var blankLine = new Line(outputBuffer)
+    .fill()
+    .store();
+
+  var line = new Line(outputBuffer)
+    .column("Direction: ",11)
+    .column(status.gamepad.direction == 1? "Front" : "Rear",50)
+    .fill()
+    .store();
+
+  var line = new Line(outputBuffer)
+    .column("fineCoarse: ",11)
+    .column(status.thrust.fineCoarse? "fine" : "Coarse",50)
+    .fill()
+    .store();
+
   var line = new Line(outputBuffer)
     .column("Video Channel 1: ",17)
     .column(status.video.ch1? "CAM 1" : "CAM 2",50)
@@ -102,7 +118,7 @@ function draw() {
 
   var line = new Line(outputBuffer)
     .column("EM 1: ", 6)
-    .column(status.manipulator.EM? "ON" : "OFF")
+    .column(status.manipulator.EM? "ON" : "OFF",50)
     .fill()
     .store();
 
@@ -110,6 +126,8 @@ function draw() {
   outputBuffer.output();
 }
 
+
+//***********
 exports.init = function() {
   setInterval(function() {
     status = index.getStatus();

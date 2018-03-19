@@ -8,7 +8,7 @@ var addrArray = [
 
 //Initiation
 var thrusterControl = require("./thrusterControl.js");
-var thrustProfile = require("./thrustProfile.js");
+var thrustProfile = require("./thrustProfilePong.js");
 
 var servoControl = require("./servoControl.js");
 
@@ -27,7 +27,7 @@ servoControl.init(0x17);
 EMControl.init(0x16);
 
 //why was the statusDisplay disabled during the first water trial?
-//statusDisplay.init();
+statusDisplay.init();
 
 var status = {
   gamepad: {
@@ -35,6 +35,7 @@ var status = {
     leftY: 0,
     rightX: 0,
     rightY: 0,
+    direction: 1,
     XButton: false,
     fineControlToggle: false
   },
@@ -42,7 +43,8 @@ var status = {
     HL: 0,
     HR: 0,
     VL: 0,
-    VR: 0
+    VR: 0,
+    fineCoarse: true,
   },
   manipulator: {
     EM: false,
@@ -85,6 +87,28 @@ controller.on("right:move", function(value) {
   thrusterControl.thrust("VL",status.thrust.VL);
   thrusterControl.thrust("VR",status.thrust.VR);
 })
+
+//change direction
+controller.on("share:press", function() {
+  if(status.gamepad.direction == 1) {
+    status.gamepad.direction = -1;
+  } else {
+    status.gamepad.direction = 1;
+  }
+  thrustProfile.direction(status.gamepad.direction);
+})
+
+//change fine/coarse mode
+controller.on("options:press", function() {
+  if(status.thrust.fineCoarse) {
+    status.thrust.fineCoarse = false;
+  } else {
+    status.thrust.fineCoarse = true;
+  }
+
+  thrustProfile.limiter(status.thrust.fineCoarse);
+})
+
 
 //Camera switching functionality
 controller.on("dpadUp:press", function() {
