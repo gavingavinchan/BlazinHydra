@@ -30,11 +30,11 @@ function transform(x,y) {
 //*************************
 var direction = 1;
 function profileChainH(x) {
-  return multiplierH(curveH(deadZone(x)))*direction;
+  return multiplierH(curveH(x))*direction;
 }
 
 function profileChainV(x) {
-  return multiplierV(curveV(deadZone(x)));
+  return multiplierV(curveV(x));
 }
 
 //*************************
@@ -53,14 +53,14 @@ function deadZone(x) {
 }
 
 //*************************
-var curvePowH = 2;
+var curvePowH = 1;
 function curveH(x) {
-  return x>0 ? Math.pow(x,curvePowH) : -Math.pow(x,curvePowH);
+  return x>0 ? Math.pow(x,curvePowH) : -Math.abs(Math.pow(x,curvePowH));
 }
 
-var curvePowV = 2;
+var curvePowV = 1;
 function curveV(x) {
-  return x>0 ? Math.pow(x,curvePowV) : -Math.pow(x,curvePowV);
+  return x>0 ? Math.pow(x,curvePowV) : -Math.abs(Math.pow(x,curvePowV));
 }
 
 //*************************
@@ -81,15 +81,15 @@ function multiplierV(x) {
 
 exports.mappingH = function(x,y) {
   return {
-    HL: profileChainH(transform(x,y).left),
-    HR: profileChainH(transform(x,y).right)
+    HL: profileChainH(transform(deadZone(x),deadZone(y)).left),
+    HR: profileChainH(transform(deadZone(x),deadZone(y)).right)
   };
 };
 
 exports.mappingV = function(x,y) {
   return {
-    VL: profileChainV(transform(x,y).left),
-    VR: profileChainV(transform(x,y).right)
+    VL: profileChainV(transform(deadZone(x),deadZone(y)).left),
+    VR: profileChainV(transform(deadZone(x),deadZone(y)).right)
   };
 };
 

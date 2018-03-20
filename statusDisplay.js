@@ -99,8 +99,8 @@ function draw() {
     .store();
 
   var line = new Line(outputBuffer)
-    .column("fineCoarse: ",11)
-    .column(status.thrust.fineCoarse? "fine" : "Coarse",50)
+    .column("fineCoarse: ",12)
+    .column(status.thrust.fineCoarse? "Fine" : "Coarse",50)
     .fill()
     .store();
 
