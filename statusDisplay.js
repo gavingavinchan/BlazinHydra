@@ -118,7 +118,19 @@ function draw() {
 
   var line = new Line(outputBuffer)
     .column("EM 1: ", 6)
-    .column(status.manipulator.EM? "ON" : "OFF",50)
+    .column(status.manipulator.EM1? "ON" : "OFF",50)
+    .fill()
+    .store();
+
+  var line = new Line(outputBuffer)
+    .column("EM 2: ", 6)
+    .column(status.manipulator.EM2? "ON" : "OFF",50)
+    .fill()
+    .store();
+
+  var line = new Line(outputBuffer)
+    .column("DTMFencoder: ", 13)
+    .column(status.manipulator.DTMFencoder? "Playing Pin" : "OFF",50)
     .fill()
     .store();
 

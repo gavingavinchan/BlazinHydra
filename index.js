@@ -5,6 +5,7 @@ var addrArray = [
   {name:"VR", address: 0x33, invert: true},
 ];
 
+var DTMFpin = [0x06,0x01,0x03];
 
 //Initiation
 var thrusterControl = require("./thrusterControl.js");
@@ -12,7 +13,11 @@ var thrustProfile = require("./thrustProfilePong.js");
 
 var servoControl = require("./servoControl.js");
 
-var EMControl = require("./EMControl.js");
+const EMControl = require("./EMControl.js");
+const EM1 = EMControl(0x15);
+const EM2 = EMControl(0x16);
+
+var DTMFencoder = require("./DTMFencoderControl.js");
 
 var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
@@ -24,7 +29,9 @@ thrusterControl.init(addrArray);
 thrusterControl.startLoop();
 
 servoControl.init(0x17);
-EMControl.init(0x16);
+
+DTMFencoder.init(0x15);
+
 
 //why was the statusDisplay disabled during the first water trial?
 statusDisplay.init();
@@ -47,7 +54,9 @@ var status = {
     fineCoarse: true,
   },
   manipulator: {
-    EM: false,
+    EM1: false,
+    EM2: false,
+    DTMFencoder: 0    //0: not playing, 1: playing
   },
   video: {
     ch1: true,
@@ -89,7 +98,7 @@ controller.on("right:move", function(value) {
 })
 
 //change direction
-controller.on("share:press", function() {
+controller.on("circle:press", function() {
   if(status.gamepad.direction == 1) {
     status.gamepad.direction = -1;
   } else {
@@ -99,7 +108,7 @@ controller.on("share:press", function() {
 })
 
 //change fine/coarse mode
-controller.on("options:press", function() {
+controller.on("x:press", function() {
   if(status.thrust.fineCoarse) {
     status.thrust.fineCoarse = false;
   } else {
@@ -133,15 +142,49 @@ controller.on("dpadLeft:press", function() {
   }
 })
 
-//electromagnet
+//electromagnet 1
 controller.on("l1:press", function(){
-  if(status.manipulator.EM) {
-    EMControl.attract(0);
-    status.manipulator.EM = false;
-    console.log("EM off");
+  if(status.manipulator.EM1) {
+    EM1.attract(0);
+    status.manipulator.EM1 = false;
   } else {
-    EMControl.attract(255);
-    status.manipulator.EM = true;
-    console.log("EM on");
+    EM1.attract(255);
+    status.manipulator.EM1 = true;
   }
 })
+
+//electromagnet 2
+controller.on("r1:press", function(){
+  if(status.manipulator.EM2) {
+    EM2.attract(0);
+    status.manipulator.EM2 = false;
+  } else {
+    EM2.attract(255);
+    status.manipulator.EM2 = true;
+  }
+})
+
+
+//DTMFencoder
+controller.on("share:press", async function() {
+  try{                                          //try catch for printing errors
+    for(var i=0; i<DTMFpin.length; i++) {
+      DTMFencoder.tone(DTMFpin[i]);
+      status.manipulator.DTMFencoder = 1;
+      await delay(500);
+    }
+    status.manipulator.DTMFencoder = 0;
+  } catch(error) {
+    console.error(error);
+  }
+})
+
+
+//delay
+function delay(ms){
+  return new Promise( (resolve, reject) => {
+      setTimeout( () => {
+        resolve();
+      }, ms);
+  });
+}
