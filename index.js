@@ -1,14 +1,13 @@
-var addrArray = [
-  {name:"HL", address: 0x3f, invert: true},
-  {name:"HR", address: 0x30, invert: false},
-  {name:"VL", address: 0x32, invert: true},
-  {name:"VR", address: 0x33, invert: true},
-];
-
 var DTMFpin = [0x06,0x01,0x03];
 
 //Initiation
-var thrusterControl = require("./thrusterControl.js");
+const thrusterControl = require("./thrusterControl.js");
+const HL = new thrusterControl({name:"HL", address: 0x3f, invert: true}),
+  HR = new thrusterControl({name:"HR", address: 0x31, invert: false}),
+  VL = new thrusterControl({name:"VL", address: 0x32, invert: true}),
+  VR = new thrusterControl({name:"VR", address: 0x33, invert: true});
+
+
 var thrustProfile = require("./thrustProfilePong.js");
 
 var servoControl = require("./servoControl.js");
@@ -25,8 +24,10 @@ var controller = new GamePad("ps4/dualshock4");
 var statusDisplay = require("./statusDisplay.js");
 controller.connect();
 
-thrusterControl.init(addrArray);
-thrusterControl.startLoop();
+HL.start();
+HR.start();
+VL.start();
+VR.start();
 
 servoControl.init(0x17);
 
@@ -76,34 +77,31 @@ function normalize(x) {
 controller.on("left:move", function(value) {
   let gp = status.gamepad;
   gp.leftX = normalize(value.x);
-  gp.leftY = normalize(value.y);
+  gp.leftY = -normalize(value.y);
 
   status.thrust.HL = thrustProfile.mappingH(gp.leftX,gp.leftY).HL;
   status.thrust.HR = thrustProfile.mappingH(gp.leftX,gp.leftY).HR;
 
-  thrusterControl.thrust("HL",status.thrust.HL);
-  thrusterControl.thrust("HR",status.thrust.HR);
+  HL.thrust(status.thrust.HL);
+  HR.thrust(status.thrust.HR);
 })
 
 controller.on("right:move", function(value) {
   let gp = status.gamepad;
+
   gp.rightX = normalize(value.x);
-  gp.rightY = normalize(value.y);
+  gp.rightY = -normalize(value.y);
 
   status.thrust.VL = thrustProfile.mappingV(gp.rightX,gp.rightY).VL;
   status.thrust.VR = thrustProfile.mappingV(gp.rightX,gp.rightY).VR;
 
-  thrusterControl.thrust("VL",status.thrust.VL);
-  thrusterControl.thrust("VR",status.thrust.VR);
+  VL.thrust(status.thrust.VL);
+  VR.thrust(status.thrust.VR);
 })
 
 //change direction
 controller.on("circle:press", function() {
-  if(status.gamepad.direction == 1) {
-    status.gamepad.direction = -1;
-  } else {
-    status.gamepad.direction = 1;
-  }
+  status.gamepad.direction *= -1;
   thrustProfile.direction(status.gamepad.direction);
 })
 

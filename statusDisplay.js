@@ -31,25 +31,25 @@ function draw() {
 
   var line = new Line(outputBuffer)
     .column("LeftX",13)
-    .column(Gauge(status.gamepad.leftX + 1, 2.5, 40, 2, status.gamepad.leftX.toFixed(3)),80)
+    .column(Gauge(status.gamepad.leftX + 1, 2, 40, 2, status.gamepad.leftX.toFixed(3)),80)
     .fill()
     .store();
 
   var line = new Line(outputBuffer)
     .column("LeftY",13)
-    .column(Gauge(status.gamepad.leftY + 1, 2.5, 40, 2, status.gamepad.leftY.toFixed(3)),80)
+    .column(Gauge(status.gamepad.leftY + 1, 2, 40, 2, status.gamepad.leftY.toFixed(3)),80)
     .fill()
     .store();
 
   var line = new Line(outputBuffer)
     .column("RightX",13)
-    .column(Gauge(status.gamepad.rightX + 1, 2.5, 40, 2, status.gamepad.rightX.toFixed(3)),80)
+    .column(Gauge(status.gamepad.rightX + 1, 2, 40, 2, status.gamepad.rightX.toFixed(3)),80)
     .fill()
     .store();
 
   var line = new Line(outputBuffer)
     .column("RightY",13)
-    .column(Gauge(status.gamepad.rightY + 1, 2.5, 40, 2, status.gamepad.rightY.toFixed(3)),80)
+    .column(Gauge(status.gamepad.rightY + 1, 2, 40, 2, status.gamepad.rightY.toFixed(3)),80)
     .fill()
     .store();
 

@@ -1,83 +1,58 @@
 var i2c = require('i2c');
 
 const timeInterval = 20;
-const maxAccelerationPerSecond = 0.7;
-
-var thrusters = [];
-//HL = 0, HR, 1, VL = 2, VR = 3
-
-var _init = function(settings) {
-
-  console.log("thrusterControl initiated");
-
-  settings.forEach(setting => {
-    const s = Object.assign({ invert: false }, setting);
-    //console.log(setting);
-    var thruster = {
-      device: new i2c(s.address, {device: '/dev/i2c-1'}),
-      currentSpeed: 0,
-      targetSpeed: 0,
-      invert: s.invert ? -1 : 1,
-      maxAcceleration: maxAccelerationPerSecond / timeInterval,
-    };
-    thrusters[s.name] = thruster;
-  });
-};
+const maxAccelerationPerSecond = 0.6;
 
 var i2cThrusterWrite = function(device, _currentSpeed) {
   device.writeBytes(0x00, [_currentSpeed*32767 >>> 8, (_currentSpeed*32767)%255], function(err) {});
 }
 
-var loop;
-var _startLoop = function() {
-  for(var t in thrusters) {
-    i2cThrusterWrite(thrusters[t].device,0);
-    //thrusters[t].device.writeBytes(0x00, [0x00, 0x00], err => {});
-  }
+module.exports = function(setting){
+  thruster = function() {};
 
-  loop = setInterval(function() {
-    for(var t in thrusters) {
-      //let t = element;
-      t = thrusters[t];
-      //console.log(t.maxAcceleration);
-      if(Math.abs(t.targetSpeed-t.currentSpeed) > t.maxAcceleration) {
-        if(t.targetSpeed > t.currentSpeed) {
+  // INIT Thruster
+  const s = Object.assign({ invert: false }, setting);
+  const device = new i2c(s.address, {device: '/dev/i2c-1'});
+  var currentSpeed = 0,
+    targetSpeed= 0,
+    invert= s.invert ? -1 : 1,
+    maxStepPerInterval = maxAccelerationPerSecond * (timeInterval/1000);
+
+  var loop = 0;
+
+  thruster.start = function(){
+    i2cThrusterWrite(device,0);
+    loop = setInterval(() => {
+      if(Math.abs(targetSpeed-currentSpeed) > maxStepPerInterval) {
+        if(targetSpeed > currentSpeed) {
           //console.log("positive acceleration too high.   " + "currentSpeed: " + t.currentSpeed + " newSpeed: " + newSpeed);
-          t.currentSpeed += t.maxAcceleration;
+          currentSpeed += maxStepPerInterval;
         } else {
-          t.currentSpeed -= t.maxAcceleration;
+          currentSpeed -= maxStepPerInterval;
           //console.log("negative acceleration too low.   " + "currentSpeed: " + t.currentSpeed);
         }
       } else {
-        t.currentSpeed = t.targetSpeed;
+        currentSpeed = targetSpeed;
       }
-      //console.log("value: " + t.currentSpeed*32767);
+      // console.log("cs: " + currentSpeed);
 
       // truncate
-      if(Math.abs(t.currentSpeed) > 1) {
-        if(t.currentSpeed>0) {t.currentSpeed = 1} else {t.currentSpeed = -1};
+      if(Math.abs(currentSpeed) > 1) {
+        if(currentSpeed>0) {currentSpeed = 1} else {currentSpeed = -1};
       }
-      i2cThrusterWrite(t.device, t.currentSpeed*t.invert);
-      //t.device.writeBytes(0x00, [t.currentSpeed*32767 >>> 8, (t.currentSpeed*32767)%255], function(err) {});
-    }
-  },timeInterval);
-};
 
-var _stopLoop = function() {
-  clearInterval(loop);
-  for(var t in thrusters) {
-    i2cThrusterWrite(thrusters[t].device, 0);
-    //thrusters[t].device.writeBytes(0x00, [0x00, 0x00], err => {});
+      i2cThrusterWrite(device, invert * currentSpeed);
+    }, timeInterval);
   }
-}
 
-var _thrust = function(name,value) {
-  thrusters[name].targetSpeed = value;
-};
+  thruster.stop = function(){
+    i2cThrusterWrite(device, 0);
+    clearInterval(loop);
+  }
 
-module.exports = {
-  init: _init,
-  startLoop: _startLoop,
-  stopLoop: _stopLoop,
-  thrust: _thrust,
+  thruster.thrust = function(power){
+    targetSpeed = power;
+  }
+
+  return thruster;
 };

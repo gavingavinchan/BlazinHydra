@@ -1,3 +1,8 @@
+var fineH = 0.3;
+var coarseH = 0.8;
+var fineV = 0.3;
+var coarseV = 0.8;
+
 function transform(x,y) {
   var left,right;
   if(x==0 || y==0) {
@@ -28,18 +33,12 @@ function transform(x,y) {
 
 
 //*************************
-var direction = 1;
 function profileChainH(x) {
-  return multiplierH(curveH(x))*direction;
+  return multiplierH(curveH(x));
 }
 
 function profileChainV(x) {
   return multiplierV(curveV(x));
-}
-
-//*************************
-function powerCap(x){
-  return x>1 ? 1 : (x<-1? -1 : x);
 }
 
 //*************************
@@ -64,12 +63,12 @@ function curveV(x) {
 }
 
 //*************************
-var multiplierLimitH = 1;
+var multiplierLimitH = coarseH;
 function multiplierH(x) {
   return x*multiplierLimitH;
 }
 
-var multiplierLimitV = 1;
+var multiplierLimitV = coarseV;
 function multiplierV(x) {
   return x*multiplierLimitV;
 }
@@ -78,12 +77,19 @@ function multiplierV(x) {
 
 
 
+var direction = 1;
 
 exports.mappingH = function(x,y) {
-  return {
-    HL: profileChainH(transform(deadZone(x),deadZone(y)).left),
-    HR: profileChainH(transform(deadZone(x),deadZone(y)).right)
-  };
+  if (direction>0)
+    return {
+      HL: profileChainH(transform(deadZone(x),deadZone(y)).left),
+      HR: profileChainH(transform(deadZone(x),deadZone(y)).right)
+    };
+  else
+    return {
+      HR: -profileChainH(transform(deadZone(x),deadZone(y)).left),
+      HL: -profileChainH(transform(deadZone(x),deadZone(y)).right)
+    }
 };
 
 exports.mappingV = function(x,y) {
@@ -94,10 +100,7 @@ exports.mappingV = function(x,y) {
 };
 
 //*****
-var fineH = 0.3;
-var coarseH = 0.8;
-var fineV = 0.3;
-var coarseV = 0.8;
+
 
 exports.limiter = function(fineCoarse) {   //boolean; fine:true, coarse:false
   if(fineCoarse) {
