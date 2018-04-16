@@ -1,7 +1,7 @@
-var fineH = 0.3;
+var fineH = 0.4;
 var coarseH = 0.8;
-var fineV = 0.3;
-var coarseV = 0.8;
+var fineV = 0.4;
+var coarseV = 0.9;
 
 function transform(x,y) {
   var left,right;

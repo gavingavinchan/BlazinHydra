@@ -92,6 +92,24 @@ function draw() {
     .fill()
     .store();
 
+
+var depth = status.depth.cm - status.depth.zero;
+
+// TODO: Make sure the depth is within range before drawing
+
+  var depthValue = (status.depth.cm - status.depth.zero).toFixed(1);
+
+  var line = new Line(outputBuffer)
+    .column("Depth: ",13)
+    .column(
+	Gauge(status.depth.cmTared + 1000, 
+		1000, 40, 1000, 
+		status.depth.cmTared.toFixed(1),
+		60))
+    .fill()
+    .store();
+
+
   var line = new Line(outputBuffer)
     .column("Direction: ",11)
     .column(status.gamepad.direction == 1? "Front" : "Rear",50)
@@ -131,6 +149,24 @@ function draw() {
   var line = new Line(outputBuffer)
     .column("DTMFencoder: ", 13)
     .column(status.manipulator.DTMFencoder? "Playing Pin" : "OFF",50)
+    .fill()
+    .store();
+
+  var line = new Line(outputBuffer)
+    .column("Depth (cm): ", 15)
+    .column(status.depth.cmTared.toFixed(1).toString(),50)
+    .fill()
+    .store();
+
+
+    var blankLine = new Line(outputBuffer)
+      .fill()
+      .store();
+
+
+  var line = new Line(outputBuffer)
+    .column("Message: ", 15)
+    .column(status.message.toString(),50)
     .fill()
     .store();
 
