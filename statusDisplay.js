@@ -93,22 +93,24 @@ function draw() {
     .store();
 
 
-var depth = status.depth.cm - status.depth.zero;
-
+    var depth = status.depth.cm;
+/*
 // TODO: Make sure the depth is within range before drawing
 
   var depthValue = (status.depth.cm - status.depth.zero).toFixed(1);
+*/
+  if(depth<0) {depth=0;}
 
+  var depthGaugeRange = 1000;
+  if(depth>depthGaugeRange) {depth=depthGaugeRange;}
+
+/*
   var line = new Line(outputBuffer)
     .column("Depth: ",13)
-    .column(
-	Gauge(status.depth.cmTared + 1000, 
-		1000, 40, 1000, 
-		status.depth.cmTared.toFixed(1),
-		60))
+    .column(Gauge(status.depth.cm, 1000, 40, 1000,status.depth.cm.toFixed(1),60))
     .fill()
     .store();
-
+*/
 
   var line = new Line(outputBuffer)
     .column("Direction: ",11)
@@ -153,7 +155,7 @@ var depth = status.depth.cm - status.depth.zero;
     .store();
 
   var line = new Line(outputBuffer)
-    .column("Depth (cm): ", 15)
+    .column("Height (cm): ", 15)
     .column(status.depth.cmTared.toFixed(1).toString(),50)
     .fill()
     .store();
