@@ -64,6 +64,7 @@ var status = {
     DTMFencoder: 0    //0: not playing, 1: playing
   },
   depth: {
+    raw: 0,
     mBar: 0,
     cm: 0,
     cmTared: 0,
@@ -192,12 +193,12 @@ controller.on("share:press", async function() {
 
 //tare the depth reading
 controller.on("triangle:press", function(){
-  status.depth.tare = status.depth.mBar;
+  status.depth.tare = status.depth.raw;
 })
 
 //calibrate the depth reading, press this when sensor is at water surface
 controller.on("psx:press", function(){
-  status.depth.zero = status.depth.mBar;
+  status.depth.zero = status.depth.raw;
 })
 
 
@@ -223,15 +224,20 @@ sensor.reset(function(err) {
 			sensor.measure(function(err, result){
         if(err) return;
         try{
+	  if(result.temperature>50){ // likely a bug
+		status.message = 'problem from sensor: temp: '+result.temperature;
+		return;
+          }
+          status.depth.raw = result.pressure;
           status.depth.mBar = result.pressure - status.depth.zero;   //mBar, not tared
         //console.log(result);
           status.depth.cm = ((result.pressure - status.depth.zero)*100*100)/(1000*9.81); //cm, not tared
 
-          status.depth.cmTared = ((result.pressure - status.depth.tare - status.depth.zero)*100*100)/(1000*9.81); //cm, tared
+          status.depth.cmTared = ((result.pressure - status.depth.tare)*100*100)/(1000*9.81); //cm, tared
         }catch(exception){
           status.message = 'exception from depth sensor';
         }
 			});
-		}, 500);
+		}, 1000);
 	});
 });
