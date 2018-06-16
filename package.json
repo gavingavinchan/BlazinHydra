@@ -23,6 +23,7 @@
   "dependencies": {
     "clui": "^0.3.6",
     "i2c": "^0.2.3",
+    "ms5803": "^1.0.1",
     "node-gamepad": "^0.1.15",
     "node-hid": "^0.5.7"
   }
