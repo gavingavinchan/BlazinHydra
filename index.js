@@ -2,10 +2,10 @@ var DTMFpin = [0x06,0x01,0x03];
 
 //Initiation
 const thrusterControl = require("./thrusterControl.js");
-const HL = new thrusterControl({name:"HL", address: 0x30, invert: true}),
+const HL = new thrusterControl({name:"HL", address: 0x33, invert: false}),
   HR = new thrusterControl({name:"HR", address: 0x31, invert: false}),
   VL = new thrusterControl({name:"VL", address: 0x32, invert: false}),
-  VR = new thrusterControl({name:"VR", address: 0x33, invert: false});
+  VR = new thrusterControl({name:"VR", address: 0x30, invert: false});
 
 
 var thrustProfile = require("./thrustProfilePong.js");

@@ -1,6 +1,6 @@
-var fineH = 0.5;
+var fineH = 0.45;
 var coarseH = 0.95;
-var fineV = 0.5;
+var fineV = 0.45;
 var coarseV = 0.95;
 
 function transform(x,y) {
