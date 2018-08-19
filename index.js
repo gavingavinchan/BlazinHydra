@@ -1,11 +1,33 @@
 var DTMFpin = [0x06,0x01,0x03];
 
 //Initiation
+
 const thrusterControl = require("./thrusterControl.js");
 const HL = new thrusterControl({name:"HL", address: 0x33, invert: false}),
   HR = new thrusterControl({name:"HR", address: 0x31, invert: false}),
   VL = new thrusterControl({name:"VL", address: 0x32, invert: false}),
   VR = new thrusterControl({name:"VR", address: 0x30, invert: false});
+
+var io = require('socket.io').listen(5000);
+io.on('connection', function(socket) {
+  // relay messages from clients
+  socket.use((packet, next) => {
+    io.emit(packet[0], packet[1]);
+    return next();
+  });
+
+  // loging socket communicaions
+  /*
+  socket.use((packet, next) => {
+    console.log(new Date() + '\t' + packet[0] + '\t' + packet[1]);
+    return next();
+  });
+  */
+
+  io.emit('thrusterControl.start', {});
+});
+
+
 
 
 var thrustProfile = require("./thrustProfilePong.js");
@@ -22,16 +44,18 @@ var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
 
 var statusDisplay = require("./statusDisplay.js");
+var statusDisplay = require("./statusDisplayNEW.js");
+
 
 var ms5803 = require('ms5803');
 var sensor = new ms5803();
 
 controller.connect();
 
-HL.start();
-HR.start();
-VL.start();
-VR.start();
+//HL.start();
+//HR.start();
+//VL.start();
+//VR.start();
 
 servoControl.init(0x17);
 
@@ -39,7 +63,7 @@ DTMFencoder.init(0x20);
 
 
 //why was the statusDisplay disabled during the first water trial?
-statusDisplay.init();
+//statusDisplay.init();
 
 var status = {
   gamepad: {
@@ -95,8 +119,10 @@ controller.on("left:move", function(value) {
   status.thrust.HL = thrustProfile.mappingH(gp.leftX,gp.leftY).HL;
   status.thrust.HR = thrustProfile.mappingH(gp.leftX,gp.leftY).HR;
 
-  HL.thrust(status.thrust.HL);
-  HR.thrust(status.thrust.HR);
+  io.emit('thrusterControl.thrust.HL', status.thrust.HL);
+  io.emit('thrusterControl.thrust.HR', status.thrust.HR);
+  //HL.thrust(status.thrust.HL);
+  //HR.thrust(status.thrust.HR);
 })
 
 controller.on("right:move", function(value) {
@@ -108,8 +134,11 @@ controller.on("right:move", function(value) {
   status.thrust.VL = thrustProfile.mappingV(gp.rightX,gp.rightY).VL;
   status.thrust.VR = thrustProfile.mappingV(gp.rightX,gp.rightY).VR;
 
-  VL.thrust(status.thrust.VL);
-  VR.thrust(status.thrust.VR);
+
+  io.emit('thrusterControl.thrust.VL', status.thrust.VL);
+  io.emit('thrusterControl.thrust.VR', status.thrust.VR);
+  //VL.thrust(status.thrust.VL);
+  //VR.thrust(status.thrust.VR);
 })
 
 //change direction

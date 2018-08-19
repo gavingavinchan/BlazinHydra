@@ -1,6 +1,9 @@
 var i2c = require('i2c');
 
-const timeInterval = 20;
+var io = require('socket.io-client');
+
+
+const timeInterval = 200;
 const maxAccelerationPerSecond = 0.6;
 
 var i2cThrusterWrite = function(device, _currentSpeed) {
@@ -8,19 +11,28 @@ var i2cThrusterWrite = function(device, _currentSpeed) {
 }
 
 module.exports = function(setting){
-  thruster = function() {};
+
+  var thruster = function() {};
 
   // INIT Thruster
-  const s = Object.assign({ invert: false }, setting);
-  const device = new i2c(s.address, {device: '/dev/i2c-1'});
+  thruster.setting = Object.assign({ name: 'undefined', address: 0x00, invert: false }, setting);
+  thruster.socket = io.connect('http://localhost:5000');
+  thruster.started = false;
+
+  const device = new i2c(thruster.setting.address, {device: '/dev/i2c-1'});
+  console.log(thruster.setting);
   var currentSpeed = 0,
     targetSpeed= 0,
-    invert= s.invert ? -1 : 1,
+    invert= thruster.setting.invert ? -1 : 1,
     maxStepPerInterval = maxAccelerationPerSecond * (timeInterval/1000);
 
   var loop = 0;
 
   thruster.start = function(){
+    if(thruster.started) return;
+    thruster.started = true;
+
+    console.log(thruster.setting.name);
     i2cThrusterWrite(device,0);
     loop = setInterval(() => {
       if(Math.abs(targetSpeed-currentSpeed) > maxStepPerInterval) {
@@ -41,18 +53,36 @@ module.exports = function(setting){
         if(currentSpeed>0) {currentSpeed = 1} else {currentSpeed = -1};
       }
 
+      thruster.socket.emit('thruster.thrust.'+ thruster.setting.name, currentSpeed);
       i2cThrusterWrite(device, invert * currentSpeed);
     }, timeInterval);
   }
+
+  thruster.socket.on('thrusterControl.start', function() {
+    thruster.start();
+    thruster.socket.emit('thruster', thruster.setting.name + ': starting thruster');
+  });
+
+
 
   thruster.stop = function(){
     i2cThrusterWrite(device, 0);
     clearInterval(loop);
   }
 
+  thruster.socket.on('thrusterControl.stop', function() {
+    thruster.stop();
+  })
+
+
+
   thruster.thrust = function(power){
     targetSpeed = power;
   }
+
+  thruster.socket.on('thrusterControl.thrust.'+ thruster.setting.name, function(power) {
+    thruster.thrust(power);
+  });
 
   return thruster;
 };
