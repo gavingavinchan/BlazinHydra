@@ -43,7 +43,9 @@ var DTMFencoder = require("./DTMFencoderControl.js");
 var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
 
-var statusDisplay = require("./statusDisplay.js");
+var statusProfile = require("./status.js");
+
+//var statusDisplay = require("./statusDisplay.js");
 var statusDisplay = require("./statusDisplayNEW.js");
 
 
@@ -63,7 +65,7 @@ DTMFencoder.init(0x20);
 
 
 //why was the statusDisplay disabled during the first water trial?
-//statusDisplay.init();
+statusDisplay.init();
 
 var status = {
   gamepad: {
@@ -116,11 +118,14 @@ controller.on("left:move", function(value) {
   gp.leftX = normalize(value.x);
   gp.leftY = -normalize(value.y);
 
+  io.emit('gamepad.leftJoystick', {x: gp.leftX, y: gp.leftY});
+/*
   status.thrust.HL = thrustProfile.mappingH(gp.leftX,gp.leftY).HL;
   status.thrust.HR = thrustProfile.mappingH(gp.leftX,gp.leftY).HR;
 
   io.emit('thrusterControl.thrust.HL', status.thrust.HL);
   io.emit('thrusterControl.thrust.HR', status.thrust.HR);
+  */
   //HL.thrust(status.thrust.HL);
   //HR.thrust(status.thrust.HR);
 })
@@ -131,31 +136,38 @@ controller.on("right:move", function(value) {
   gp.rightX = normalize(value.x);
   gp.rightY = -normalize(value.y);
 
+  io.emit('gamepad.rightJoystick', {x: gp.rightX, y: gp.rightY});
+
+/*
   status.thrust.VL = thrustProfile.mappingV(gp.rightX,gp.rightY).VL;
   status.thrust.VR = thrustProfile.mappingV(gp.rightX,gp.rightY).VR;
 
 
   io.emit('thrusterControl.thrust.VL', status.thrust.VL);
   io.emit('thrusterControl.thrust.VR', status.thrust.VR);
+  */
   //VL.thrust(status.thrust.VL);
   //VR.thrust(status.thrust.VR);
 })
 
 //change direction
 controller.on("circle:press", function() {
-  status.gamepad.direction *= -1;
-  thrustProfile.direction(status.gamepad.direction);
+  //status.gamepad.direction *= -1;
+  io.emit('gamepad.circle', {});
+  //thrustProfile.direction(status.gamepad.direction);
 })
 
 //change fine/coarse mode
 controller.on("x:press", function() {
+  io.emit('gamepad.x', {});
+/*
   if(status.thrust.fineCoarse) {
     status.thrust.fineCoarse = false;
   } else {
     status.thrust.fineCoarse = true;
   }
-
-  thrustProfile.limiter(status.thrust.fineCoarse);
+*/
+  //thrustProfile.limiter(status.thrust.fineCoarse);
 })
 
 
