@@ -1,5 +1,8 @@
 var i2c = require('i2c');
 
+var io = require('socket.io-client');
+var socket = io.connect('http://localhost:5000');
+
 /*
 var EMController = {};
 exports.init = function(EMControllerAddr) {
@@ -19,3 +22,5 @@ module.exports = function(addr){
 
   return EM;
 }
+
+//socket.on()

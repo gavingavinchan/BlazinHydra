@@ -43,7 +43,7 @@ var DTMFencoder = require("./DTMFencoderControl.js");
 var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
 
-var statusProfile = require("./status.js");
+var statusProfile = require("./ds4Control.js");
 
 //var statusDisplay = require("./statusDisplay.js");
 var statusDisplay = require("./statusDisplayNEW.js");
@@ -65,7 +65,7 @@ DTMFencoder.init(0x20);
 
 
 //why was the statusDisplay disabled during the first water trial?
-statusDisplay.init();
+//statusDisplay.init();
 
 var status = {
   gamepad: {
@@ -173,6 +173,8 @@ controller.on("x:press", function() {
 
 //Camera switching functionality
 controller.on("dpadUp:press", function() {
+  io.emit('gamepad.dpadUp', {});
+  /*
   console.log("pressed");
   if(status.video.ch1) {
     servoControl.servo(0x02,1500);
@@ -182,20 +184,23 @@ controller.on("dpadUp:press", function() {
     servoControl.servo(0x02,1100);
     status.video.ch1 = true;
   }
+  */
 })
 
 controller.on("dpadLeft:press", function() {
-  if(status.video.ch2) {
+/*  if(status.video.ch2) {
     servoControl.servo(0x03,1500);
     status.video.ch2 = false;
   } else {
     servoControl.servo(0x03,1100);
     status.video.ch2 = true;
-  }
+  }*/
 })
 
 //electromagnet 1
 controller.on("l1:press", function(){
+  io.emit('gamepad.l1', {});
+
   if(status.manipulator.EM1) {
     EM1.attract(0);
     status.manipulator.EM1 = false;

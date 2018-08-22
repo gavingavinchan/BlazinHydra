@@ -53,3 +53,43 @@ socket.on('gamepad.x', function() {
 
   socket.emit('profile.fineCoarse', status.thrust.fineCoarse);
 })
+
+//electromagnet
+socket.on('gamepad.l1', function() {
+  if(status.manipulator.EM1) {
+    status.manipulator.EM1 = false;
+  } else {
+    status.manipulator.EM1 = true;
+  }
+
+  socket.emit('EM1', status.manipulator.EM1);
+})
+
+
+socket.on('gamepad.r1', function() {
+  if(status.manipulator.EM2) {
+    status.manipulator.EM2 = false;
+  } else {
+    status.manipulator.EM2 = true;
+  }
+
+  socket.emit('EM2', status.manipulator.EM2);
+})
+
+//servo
+var _micros = 1500;
+socket.on('gamepad.dpadUp', function() {
+  if(status.video.ch1) {
+    //servoControl.servo(0x02,1500);
+    _micros = 1500;
+    status.video.ch1 = false;
+  } else {
+    //servoControl.servo(0x02,1100);
+    _micros = 1100;
+    status.video.ch1 = true;
+  }
+
+  socket.emit('servo', {command:0x02, micros: _micros});
+  //console.log('_micros: ' + _micros);
+  socket.emit('CAM.ch1', status.video.ch1);
+})

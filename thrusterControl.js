@@ -20,7 +20,7 @@ module.exports = function(setting){
   thruster.started = false;
 
   const device = new i2c(thruster.setting.address, {device: '/dev/i2c-1'});
-  console.log(thruster.setting);
+  //console.log(thruster.setting);
   var currentSpeed = 0,
     targetSpeed= 0,
     invert= thruster.setting.invert ? -1 : 1,
@@ -32,7 +32,7 @@ module.exports = function(setting){
     if(thruster.started) return;
     thruster.started = true;
 
-    console.log(thruster.setting.name);
+    //console.log(thruster.setting.name);
     i2cThrusterWrite(device,0);
     loop = setInterval(() => {
       if(Math.abs(targetSpeed-currentSpeed) > maxStepPerInterval) {

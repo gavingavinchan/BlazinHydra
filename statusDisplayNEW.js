@@ -1,7 +1,7 @@
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:5000');
 
-console.log("starting");
+//console.log("starting");
 
 var status = {
   gamepad: {
@@ -53,22 +53,18 @@ socket.on('gamepad.rightJoystick', function(value) {
 
 
 socket.on('thruster.thrust.HL', function(_thrust) {
-  console.log(_thrust);
   status.thrust.HL = _thrust;
 });
 
 socket.on('thruster.thrust.HR', function(_thrust) {
-  console.log(_thrust);
   status.thrust.HR = _thrust;
 });
 
 socket.on('thruster.thrust.VL', function(_thrust) {
-  console.log(_thrust);
   status.thrust.VL = _thrust;
 });
 
 socket.on('thruster.thrust.VR', function(_thrust) {
-  console.log(_thrust);
   status.thrust.VR = _thrust;
 });
 
@@ -80,6 +76,15 @@ socket.on('profile.direction', function(_direction) {
 socket.on('profile.fineCoarse', function(_fineCoarse) {
   status.thrust.fineCoarse = _fineCoarse;
 });
+
+
+socket.on('CAM.ch1', function(_channel) {
+  status.video.ch1 = _channel;
+})
+
+socket.on('CAM.ch2', function(_channel) {
+  status.video.ch2 = _channel;
+})
 
 
 var CLI         = require('clui'),
@@ -178,6 +183,19 @@ function draw() {
   var line = new Line(outputBuffer)
     .column("fineCoarse: ",12)
     .column(status.thrust.fineCoarse? "Fine" : "Coarse",50)
+    .fill()
+    .store();
+
+
+  var line = new Line(outputBuffer)
+    .column("Video Channel 1: ",17)
+    .column(status.video.ch1? "CAM 1" : "CAM 2",50)
+    .fill()
+    .store();
+
+  var line = new Line(outputBuffer)
+    .column("Video Channel 2: ",17)
+    .column(status.video.ch2? "CAM 3" : "CAM 4",50)
     .fill()
     .store();
 
