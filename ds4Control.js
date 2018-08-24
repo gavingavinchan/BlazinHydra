@@ -1,5 +1,12 @@
+// TODO: bring gamepad here!
+
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:5000');
+
+var GamePad = require("node-gamepad");
+var controller = new GamePad("ps4/dualshock4");
+
+controller.connect();
 
 var status = {
   gamepad: {
@@ -33,18 +40,40 @@ var status = {
   },
   video: {
     ch1: true,
-    ch2: false
+    ch2: true
   },
   message: []
 };
 
-// SHOULD THIS BE HERE OR IN thrustProfile
-socket.on('gamepad.circle', function() {
+//Thrusters
+function normalize(x) {
+  return (x - 255/2)/(255/2);
+}
+
+controller.on("left:move", function(value) {
+  let gp = status.gamepad;
+  gp.leftX = normalize(value.x);
+  gp.leftY = -normalize(value.y);
+
+  socket.emit('gamepad.leftJoystick', {x: gp.leftX, y: gp.leftY});
+})
+
+controller.on("right:move", function(value) {
+  let gp = status.gamepad;
+
+  gp.rightX = normalize(value.x);
+  gp.rightY = -normalize(value.y);
+
+  socket.emit('gamepad.rightJoystick', {x: gp.rightX, y: gp.rightY});
+})
+
+
+controller.on("circle:press", function() {
   status.gamepad.direction *= -1;
   socket.emit('profile.direction', status.gamepad.direction);
 });
 
-socket.on('gamepad.x', function() {
+controller.on("x:press", function() {
   if(status.thrust.fineCoarse) {
     status.thrust.fineCoarse = false;
   } else {
@@ -54,31 +83,39 @@ socket.on('gamepad.x', function() {
   socket.emit('profile.fineCoarse', status.thrust.fineCoarse);
 })
 
+
 //electromagnet
-socket.on('gamepad.l1', function() {
+controller.on("l1:press", function(){
+  let _strength = 0;
   if(status.manipulator.EM1) {
     status.manipulator.EM1 = false;
+    _strength = 0;
   } else {
     status.manipulator.EM1 = true;
+    _strength = 255;
   }
 
-  socket.emit('EM1', status.manipulator.EM1);
+  socket.emit('EM1', {strength: _strength, boolean: status.manipulator.EM1});
 })
 
 
-socket.on('gamepad.r1', function() {
+controller.on("r1:press", function(){
+  let _strength = 0;
   if(status.manipulator.EM2) {
     status.manipulator.EM2 = false;
+    _strength = 0;
   } else {
     status.manipulator.EM2 = true;
+    _strength = 255;
   }
 
-  socket.emit('EM2', status.manipulator.EM2);
+  socket.emit('EM2', {strength: _strength, boolean: status.manipulator.EM2});
 })
 
+
 //servo
-var _micros = 1500;
-socket.on('gamepad.dpadUp', function() {
+controller.on("dpadUp:press", function() {
+  let _micros = 1500;
   if(status.video.ch1) {
     //servoControl.servo(0x02,1500);
     _micros = 1500;
@@ -92,4 +129,22 @@ socket.on('gamepad.dpadUp', function() {
   socket.emit('servo', {command:0x02, micros: _micros});
   //console.log('_micros: ' + _micros);
   socket.emit('CAM.ch1', status.video.ch1);
+})
+
+
+controller.on("dpadLeft:press", function() {
+  let _micros = 1500;
+  if(status.video.ch2) {
+    //servoControl.servo(0x02,1500);
+    _micros = 1500;
+    status.video.ch2 = false;
+  } else {
+    //servoControl.servo(0x02,1100);
+    _micros = 1100;
+    status.video.ch2 = true;
+  }
+
+  socket.emit('servo', {command:0x03, micros: _micros});
+  //console.log('_micros: ' + _micros);
+  socket.emit('CAM.ch2', status.video.ch2);
 })

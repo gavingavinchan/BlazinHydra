@@ -35,7 +35,7 @@ var status = {
   },
   video: {
     ch1: true,
-    ch2: false
+    ch2: true
   },
   message: []
 };

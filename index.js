@@ -35,14 +35,14 @@ var thrustProfile = require("./thrustProfilePong.js");
 var servoControl = require("./servoControl.js");
 
 const EMControl = require("./EMControl.js");
-const EM1 = EMControl(0x15);
-const EM2 = EMControl(0x14);
+const EM1 = new EMControl({name: 'EM1', address: 0x14});
+const EM2 = new EMControl({name: 'EM2', address: 0x16});
 
 var DTMFencoder = require("./DTMFencoderControl.js");
-
+/*
 var GamePad = require("node-gamepad");
 var controller = new GamePad("ps4/dualshock4");
-
+*/
 var statusProfile = require("./ds4Control.js");
 
 //var statusDisplay = require("./statusDisplay.js");
@@ -52,7 +52,7 @@ var statusDisplay = require("./statusDisplayNEW.js");
 var ms5803 = require('ms5803');
 var sensor = new ms5803();
 
-controller.connect();
+//controller.connect();
 
 //HL.start();
 //HR.start();
@@ -65,7 +65,7 @@ DTMFencoder.init(0x20);
 
 
 //why was the statusDisplay disabled during the first water trial?
-//statusDisplay.init();
+statusDisplay.init();
 
 var status = {
   gamepad: {
@@ -107,10 +107,12 @@ var status = {
 exports.getStatus = function() {
   return status;
 }
-
+/*
 function normalize(x) {
   return (x - 255/2)/(255/2);
 }
+
+
 
 //joystick
 controller.on("left:move", function(value) {
@@ -119,15 +121,6 @@ controller.on("left:move", function(value) {
   gp.leftY = -normalize(value.y);
 
   io.emit('gamepad.leftJoystick', {x: gp.leftX, y: gp.leftY});
-/*
-  status.thrust.HL = thrustProfile.mappingH(gp.leftX,gp.leftY).HL;
-  status.thrust.HR = thrustProfile.mappingH(gp.leftX,gp.leftY).HR;
-
-  io.emit('thrusterControl.thrust.HL', status.thrust.HL);
-  io.emit('thrusterControl.thrust.HR', status.thrust.HR);
-  */
-  //HL.thrust(status.thrust.HL);
-  //HR.thrust(status.thrust.HR);
 })
 
 controller.on("right:move", function(value) {
@@ -137,64 +130,26 @@ controller.on("right:move", function(value) {
   gp.rightY = -normalize(value.y);
 
   io.emit('gamepad.rightJoystick', {x: gp.rightX, y: gp.rightY});
-
-/*
-  status.thrust.VL = thrustProfile.mappingV(gp.rightX,gp.rightY).VL;
-  status.thrust.VR = thrustProfile.mappingV(gp.rightX,gp.rightY).VR;
-
-
-  io.emit('thrusterControl.thrust.VL', status.thrust.VL);
-  io.emit('thrusterControl.thrust.VR', status.thrust.VR);
-  */
-  //VL.thrust(status.thrust.VL);
-  //VR.thrust(status.thrust.VR);
 })
 
 //change direction
 controller.on("circle:press", function() {
-  //status.gamepad.direction *= -1;
   io.emit('gamepad.circle', {});
-  //thrustProfile.direction(status.gamepad.direction);
 })
 
 //change fine/coarse mode
 controller.on("x:press", function() {
   io.emit('gamepad.x', {});
-/*
-  if(status.thrust.fineCoarse) {
-    status.thrust.fineCoarse = false;
-  } else {
-    status.thrust.fineCoarse = true;
-  }
-*/
-  //thrustProfile.limiter(status.thrust.fineCoarse);
 })
 
 
 //Camera switching functionality
 controller.on("dpadUp:press", function() {
   io.emit('gamepad.dpadUp', {});
-  /*
-  console.log("pressed");
-  if(status.video.ch1) {
-    servoControl.servo(0x02,1500);
-    console.log("true");
-    status.video.ch1 = false;
-  } else {
-    servoControl.servo(0x02,1100);
-    status.video.ch1 = true;
-  }
-  */
 })
 
 controller.on("dpadLeft:press", function() {
-/*  if(status.video.ch2) {
-    servoControl.servo(0x03,1500);
-    status.video.ch2 = false;
-  } else {
-    servoControl.servo(0x03,1100);
-    status.video.ch2 = true;
-  }*/
+  io.emit('gamepad.dpadLeft', {});
 })
 
 //electromagnet 1
@@ -246,6 +201,7 @@ controller.on("triangle:press", function(){
 controller.on("psx:press", function(){
   status.depth.zero = status.depth.raw;
 })
+*/
 
 
 //delay
