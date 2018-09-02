@@ -1,5 +1,3 @@
-// TODO: bring gamepad here!
-
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:5000');
 
@@ -55,7 +53,10 @@ controller.on("left:move", function(value) {
   gp.leftX = normalize(value.x);
   gp.leftY = -normalize(value.y);
 
-  socket.emit('gamepad.leftJoystick', {x: gp.leftX, y: gp.leftY});
+  //socket.emit('gamepad.leftJoystick', {x: gp.leftX, y: gp.leftY});
+  socket.emit('drive', gp.leftY);
+  socket.emit('strafe', gp.leftX);
+  //TODO map gamepad coordinates to rov directional axis
 })
 
 controller.on("right:move", function(value) {
@@ -64,7 +65,9 @@ controller.on("right:move", function(value) {
   gp.rightX = normalize(value.x);
   gp.rightY = -normalize(value.y);
 
-  socket.emit('gamepad.rightJoystick', {x: gp.rightX, y: gp.rightY});
+  //socket.emit('gamepad.rightJoystick', {x: gp.rightX, y: gp.rightY});
+  socket.emit('rotate', gp.rightX);
+  socket.emit('upDown', gp.rightY);
 })
 
 

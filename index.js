@@ -3,10 +3,18 @@ var DTMFpin = [0x06,0x01,0x03];
 //Initiation
 
 const thrusterControl = require("./thrusterControl.js");
+const HFL = new thrusterControl({name:"HFL", address: 0x3F, invert: false}),
+  HFR = new thrusterControl({name:"HFR", address: 0x30, invert: false}),
+  HRL = new thrusterControl({name:"HRL", address: 0x32, invert: false}),
+  HRR = new thrusterControl({name:"HRR", address: 0x33, invert: false}),
+  VF = new thrusterControl({name:"VF", address: 0x36, invert: false}),
+  VR = new thrusterControl({name:"VR", address: 0x38, invert: false});
+
+/*
 const HL = new thrusterControl({name:"HL", address: 0x33, invert: false}),
   HR = new thrusterControl({name:"HR", address: 0x31, invert: false}),
-  VL = new thrusterControl({name:"VL", address: 0x32, invert: false}),
-  VR = new thrusterControl({name:"VR", address: 0x30, invert: false});
+
+  */
 
 var io = require('socket.io').listen(5000);
 io.on('connection', function(socket) {
@@ -30,7 +38,7 @@ io.on('connection', function(socket) {
 
 
 
-var thrustProfile = require("./thrustProfilePong.js");
+var thrustProfile = require("./thrustProfile6T.js");
 
 var servoControl = require("./servoControl.js");
 
@@ -39,29 +47,20 @@ const EM1 = new EMControl({name: 'EM1', address: 0x14});
 const EM2 = new EMControl({name: 'EM2', address: 0x16});
 
 var DTMFencoder = require("./DTMFencoderControl.js");
-/*
-var GamePad = require("node-gamepad");
-var controller = new GamePad("ps4/dualshock4");
-*/
-var statusProfile = require("./ds4Control.js");
 
-//var statusDisplay = require("./statusDisplay.js");
+var ds4Control = require("./ds4Control.js");
+
 var statusDisplay = require("./statusDisplayNEW.js");
 
 
 var ms5803 = require('ms5803');
 var sensor = new ms5803();
 
-//controller.connect();
-
-//HL.start();
-//HR.start();
-//VL.start();
-//VR.start();
 
 servoControl.init(0x17);
 
 DTMFencoder.init(0x20);
+//io.emit('DTMFpin', DTMFpin);
 
 
 //why was the statusDisplay disabled during the first water trial?
