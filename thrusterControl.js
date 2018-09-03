@@ -1,11 +1,10 @@
 var i2c = require('i2c');
-
 var io = require('socket.io-client');
 
 
 const timeInterval = 200;
 const maxAccelerationPerSecond = 0.6;
-const minThrust = 0.001;
+
 
 var i2cThrusterWrite = function(device, _currentSpeed) {
   device.writeBytes(0x00, [_currentSpeed*32767 >>> 8, (_currentSpeed*32767)%255], function(err) {});
@@ -53,12 +52,7 @@ module.exports = function(setting){
       if(Math.abs(currentSpeed) > 1) {
         if(currentSpeed>0) {currentSpeed = 1} else {currentSpeed = -1};
       }
-/*
-      //to stop thruster from trying to spin when the thrust is too low
-      if(Math.abs(currentSpeed) < minThrust) {
-        currentSpeed = 0;
-      }
-*/
+
       thruster.socket.emit('thruster.thrust.'+ thruster.setting.name, currentSpeed);
       i2cThrusterWrite(device, invert * currentSpeed);
     }, timeInterval);

@@ -7,18 +7,19 @@ var coarseV = 0.95;
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:5000');
 
-//TODO change to state
+
 var state = {
   drive: 0,
   strafe: 0,
   rotate: 0,
-  up: 0,
+  upDown: 0,
   tilt: 0,
   direction: 1,
   fineControlToggle: false
 }
 
-function Htransform(drive,strafe,rotate) {
+
+function transformH(drive,strafe,rotate) {
   var HFL,HFR,HRL,HRR;
   HFL = drive + strafe + rotate;
   HFR = drive - strafe - rotate;
@@ -34,17 +35,7 @@ function Htransform(drive,strafe,rotate) {
 }
 
 
-function truncate(value) {
-  if(value > 1) {
-    value = 1;
-  } else if(value < -1) {
-    value = -1;
-  }
-  return value;
-}
-
-
-function Vtransform(x,y) {
+function transformV(x,y) {
   var left,right;
   if(x==0 || y==0) {
     left = x+y;
@@ -82,6 +73,7 @@ function profileChainV(x) {
   return multiplierV(curveV(x));
 }
 
+
 //*************************
 var deadZoneRange = 0.05;
 function deadZone(x) {
@@ -91,6 +83,7 @@ function deadZone(x) {
     return x>0 ? (Math.abs(x)-deadZoneRange)/(1-deadZoneRange) : -(Math.abs(x)-deadZoneRange)/(1-deadZoneRange);
   }
 }
+
 
 //*************************
 var curvePowH = 1;
@@ -102,6 +95,7 @@ var curvePowV = 1;
 function curveV(x) {
   return x>0 ? Math.pow(x,curvePowV) : -Math.abs(Math.pow(x,curvePowV));
 }
+
 
 //*************************
 var multiplierLimitH = coarseH;
@@ -115,73 +109,94 @@ function multiplierV(x) {
 }
 
 //*************************
+function truncate(value) {
+  if(value > 1) {
+    value = 1;
+  } else if(value < -1) {
+    value = -1;
+  }
+  return value;
+}
+
+
+//*************************
 var mappingH = function(drive, strafe, rotate) {
   if (state.direction>0)
     return {
-      HFL: profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFL),
-      HFR: profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFR),
-      HRL: profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRL),
-      HRR: profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRR),
+      HFL: profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFL),
+      HFR: profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFR),
+      HRL: profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRL),
+      HRR: profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRR),
     };
   else
     return {
-      HFL: -profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFL),
-      HFR: -profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFR),
-      HRL: -profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRL),
-      HRR: -profileChainH(Htransform(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRR),
+      HFL: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFL),
+      HFR: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFR),
+      HRL: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRL),
+      HRR: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRR),
     }
 };
-/*
-socket.on('gamepad.leftJoystick', function(value) {
-  socket.emit('thrusterControl.thrust.HL', mappingH(value.x,value.y).HL);
-  socket.emit('thrusterControl.thrust.HR', mappingH(value.x,value.y).HR);
-})
-*/
-
-//is there a way to be this clumbersome
-socket.on('drive', function(_drive) {
-  state.drive = _drive;
-  let mapped = mappingH(state.drive, state.strafe, state.rotate);
-  
-  socket.emit('thrusterControl.thrust.HFL', mapped.HFL);
-  socket.emit('thrusterControl.thrust.HFR', mapped.HFR);
-  socket.emit('thrusterControl.thrust.HRL', mapped.HRL);
-  socket.emit('thrusterControl.thrust.HRR', mapped.HRR);
-})
-
-socket.on('strafe', function(_strafe) {
-  state.strafe = _strafe;
-  let mapped = mappingH(state.drive, state.strafe, state.rotate);
-
-  socket.emit('thrusterControl.thrust.HFL', mapped.HFL);
-  socket.emit('thrusterControl.thrust.HFR', mapped.HFR);
-  socket.emit('thrusterControl.thrust.HRL', mapped.HRL);
-  socket.emit('thrusterControl.thrust.HRR', mapped.HRR);
-})
-
-socket.on('rotate', function(_rotate) {
-  state.rotate = _rotate;
-  let mapped = mappingH(state.drive, state.strafe, state.rotate);
-
-  socket.emit('thrusterControl.thrust.HFL', mapped.HFL);
-  socket.emit('thrusterControl.thrust.HFR', mapped.HFR);
-  socket.emit('thrusterControl.thrust.HRL', mapped.HRL);
-  socket.emit('thrusterControl.thrust.HRR', mapped.HRR);
-})
-
 
 
 var mappingV = function(x,y) {
   return {
-    VL: profileChainV(transform(deadZone(x),deadZone(y)).left),
-    VR: profileChainV(transform(deadZone(x),deadZone(y)).right)
+    VF: profileChainV(transformV(deadZone(x),deadZone(y)).left), //not left is now right
+    VR: profileChainV(transformV(deadZone(x),deadZone(y)).right)
   };
 };
 
-socket.on('gamepad.rightJoystick', function(value) {
-  socket.emit('thrusterControl.thrust.VF', mappingV(value.x,value.y).VL);
-  socket.emit('thrusterControl.thrust.VR', mappingV(value.x,value.y).VR);
+
+//*************************
+//is there a way to be this clumbersome
+socket.on('drive', function(value) {
+  state.drive = value;
+  let mapped = mappingH(state.drive, state.strafe, state.rotate);
+
+  socket.emit('thrusterControl.thrust.HFL', mapped.HFL);
+  socket.emit('thrusterControl.thrust.HFR', mapped.HFR);
+  socket.emit('thrusterControl.thrust.HRL', mapped.HRL);
+  socket.emit('thrusterControl.thrust.HRR', mapped.HRR);
 })
+
+socket.on('strafe', function(value) {
+  state.strafe = value;
+  let mapped = mappingH(state.drive, state.strafe, state.rotate);
+
+  socket.emit('thrusterControl.thrust.HFL', mapped.HFL);
+  socket.emit('thrusterControl.thrust.HFR', mapped.HFR);
+  socket.emit('thrusterControl.thrust.HRL', mapped.HRL);
+  socket.emit('thrusterControl.thrust.HRR', mapped.HRR);
+})
+
+socket.on('rotate', function(value) {
+  state.rotate = value;
+  let mapped = mappingH(state.drive, state.strafe, state.rotate);
+
+  socket.emit('thrusterControl.thrust.HFL', mapped.HFL);
+  socket.emit('thrusterControl.thrust.HFR', mapped.HFR);
+  socket.emit('thrusterControl.thrust.HRL', mapped.HRL);
+  socket.emit('thrusterControl.thrust.HRR', mapped.HRR);
+})
+
+
+
+socket.on('upDown', function(value) {
+  state.upDown = value;
+  let mapped = mappingV(state.tilt, state.upDown);
+
+  socket.emit('thrusterControl.thrust.VF', mapped.VF);
+  socket.emit('thrusterControl.thrust.VR', mapped.VR);
+})
+
+socket.on('tilt', function(value) {
+  state.tilt = value;
+  let mapped = mappingV(state.tilt, state.upDown);
+
+  socket.emit('thrusterControl.thrust.VF', mapped.VF);
+  socket.emit('thrusterControl.thrust.VR', mapped.VR);
+})
+
+
 
 //*****
 var limiter = function(fineCoarse) {   //boolean; fine:true, coarse:false

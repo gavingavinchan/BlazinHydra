@@ -9,6 +9,7 @@ var status = {
     strafe: 0,
     rotate: 0,
     upDown: 0,
+    tilt: 0,
     XButton: false,
     fineControlToggle: false
   },
@@ -61,10 +62,15 @@ socket.on('upDown', function(value) {
   status.gamepad.upDown = value;
 });
 
+socket.on('tilt', function(value) {
+  status.gamepad.tilt = value;
+});
+
 
 socket.on('thrusterControl.thrust.HRR', function(_thrust) {
   status.profile.HRR = _thrust;
 });
+
 
 
 socket.on('thruster.thrust.HFL', function(_thrust) {
@@ -85,8 +91,8 @@ socket.on('thruster.thrust.HRR', function(_thrust) {
 
 
 
-socket.on('thruster.thrust.VL', function(_thrust) {
-  status.thrust.VL = _thrust;
+socket.on('thruster.thrust.VF', function(_thrust) {
+  status.thrust.VF = _thrust;
 });
 
 socket.on('thruster.thrust.VR', function(_thrust) {
@@ -164,6 +170,7 @@ function draw() {
 
   gaugeLine(outputBuffer, "upDown", status.gamepad.upDown);
 
+  gaugeLine(outputBuffer, "tilt", status.gamepad.tilt);
 
   var blankLine = new Line(outputBuffer).fill().store();
 
@@ -179,7 +186,7 @@ function draw() {
 
   gaugeLine(outputBuffer, "Thruster HRR", status.thrust.HRR);
 
-  gaugeLine(outputBuffer, "Thruster VL", status.thrust.VL);
+  gaugeLine(outputBuffer, "Thruster VF", status.thrust.VF);
 
   gaugeLine(outputBuffer, "Thruster VR", status.thrust.VR);
 
