@@ -3,12 +3,12 @@ var DTMFpin = [0x06,0x01,0x03];
 //Initiation
 
 const thrusterControl = require("./thrusterControl.js");
-const HFL = new thrusterControl({name:"HFL", address: 0x3F, invert: false}),
-  HFR = new thrusterControl({name:"HFR", address: 0x30, invert: false}),
-  HRL = new thrusterControl({name:"HRL", address: 0x32, invert: false}),
-  HRR = new thrusterControl({name:"HRR", address: 0x33, invert: false}),
-  VF = new thrusterControl({name:"VF", address: 0x36, invert: false}),
-  VR = new thrusterControl({name:"VR", address: 0x38, invert: false});
+const HFL = new thrusterControl({name:"HFL", address: 0x32, invert: true}),
+  HFR = new thrusterControl({name:"HFR", address: 0x31, invert: true}),
+  HRL = new thrusterControl({name:"HRL", address: 0x33, invert: false}),
+  HRR = new thrusterControl({name:"HRR", address: 0x30, invert: false}),
+  VF = new thrusterControl({name:"VF", address: 0x3A, invert: false}),
+  VR = new thrusterControl({name:"VR", address: 0x3B, invert: true});
 
 /*
 const HL = new thrusterControl({name:"HL", address: 0x33, invert: false}),

@@ -130,10 +130,10 @@ var mappingH = function(drive, strafe, rotate) {
     };
   else
     return {
-      HFL: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFL),
-      HFR: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HFR),
-      HRL: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRL),
-      HRR: -profileChainH(transformH(deadZone(drive),deadZone(strafe),deadZone(rotate)).HRR),
+      HFL: profileChainH(transformH(deadZone(-drive),deadZone(-strafe),deadZone(rotate)).HFL),
+      HFR: profileChainH(transformH(deadZone(-drive),deadZone(-strafe),deadZone(rotate)).HFR),
+      HRL: profileChainH(transformH(deadZone(-drive),deadZone(-strafe),deadZone(rotate)).HRL),
+      HRR: profileChainH(transformH(deadZone(-drive),deadZone(-strafe),deadZone(rotate)).HRR),
     }
 };
 

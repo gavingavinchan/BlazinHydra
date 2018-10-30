@@ -59,7 +59,7 @@ controller.on("left:move", function(value) {
 
   //socket.emit('gamepad.leftJoystick', {x: gp.leftX, y: gp.leftY});
   socket.emit('drive', gp.leftY);
-  socket.emit('strafe', gp.leftX);
+  socket.emit('rotate', gp.leftX);
 })
 
 controller.on("right:move", function(value) {
@@ -68,7 +68,7 @@ controller.on("right:move", function(value) {
   gp.rightX = normalize(value.x);
   gp.rightY = -normalize(value.y);
 
-  socket.emit('rotate', gp.rightX);
+  socket.emit('strafe', gp.rightX);
   socket.emit('upDown', gp.rightY);
 })
 
@@ -76,13 +76,13 @@ controller.on("right:move", function(value) {
 controller.on("l2:change", function(value) {
   let gp = status.gamepad;
   gp.l2 = value/255;
-  socket.emit('tilt', gp.l2 - gp.r2);
+  socket.emit('tilt', gp.r2 - gp.l2);
 })
 
 controller.on("r2:change", function(value){
   let gp = status.gamepad;
   gp.r2 = value/255;
-  socket.emit('tilt', gp.l2 - gp.r2);
+  socket.emit('tilt', gp.r2 - gp.l2);
 })
 
 
